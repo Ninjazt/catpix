@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Doação</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <style>
+      /* Estilo para o avatar */
+      .avatar {
+        position: absolute;
+        top: -40px;
+        right: 25px;
+        width: 80px;
+        height: 80px;
+        border: 2px solid white;
+        border-radius: 50%;
+        background-color: transparent;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* Estilo para o modal */
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-content {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .modal-content img {
+        width: 200px;
+        height: 200px;
+        margin: 20px auto;
+      }
+
+      .qr-info {
+        font-size: 1.2rem;
+        margin-top: 10px;
+        color: #00A896;
+      }
+
+      .copy-button {
+        background-color: #f1f1f1;
+        border: none;
+        border-radius: 5px;
+        padding: 10px;
+        cursor: pointer;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 15px;
+        width: 100%;
+      }
+
+      .copy-button:hover {
+        background-color: #d1d1d1;
+      }
+
+      .close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 18px;
+        cursor: pointer;
+      }
+
+      /* Responsividade */
+      @media (max-width: 640px) {
+        .modal-content {
+          width: 100%;
+        }
+
+        .modal-content img {
+          width: 150px;
+          height: 150px;
+        }
+      }
+    </style>
+</head>
+<body class="bg-gray-100 h-screen flex items-center justify-center col-md-6">
+<div class="max-w-md mx-auto bg-white p-8 mt-10 rounded-lg relative shadow-lg" style="width: 60%;">
+    <div class="avatar">
+      <img src="https://www.escolacasa.com/wp-content/uploads/2024/05/Logo-Nu-antiga-1024x618.png" alt="Avatar">
+    </div>
+    <h1 class="text-2xl font-semibold mb-6 text-left">Doe para <span class="text-indigo-600">Misarín</span></h1>
+    <form id="donationForm">
+      <div class="mb-4">
+        <label for="name" class="block text-sm font-medium text-gray-700">Seu nome</label>
+        <input type="text" id="name" name="name" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="Digite seu nome">
+      </div>
+      <div class="mb-4">
+        <label for="value" class="block text-sm font-medium text-gray-700">Valor</label>
+        <input type="text" id="value" name="value" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" placeholder="R$ 0,00">
+        <small class="text-gray-500">Mínimo R$ 3,00</small>
+      </div>
+      <button type="submit" style="flex-direction: column; background: #6c757d linear-gradient(180deg,hsla(208,7%,46%,.85),#6c757d) repeat-x;" class="p-2 flex items-center w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition duration-300">
+          <svg data-v-5248ab42="" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16" class="bi bi-qr-code"><path d="M2 2h2v2H2V2Z"></path><path d="M6 0v6H0V0h6ZM5 1H1v4h4V1ZM4 12H2v2h2v-2Z"></path><path d="M6 10v6H0v-6h6Zm-5 1v4h4v-4H1Zm11-9h2v2h-2V2Z"></path><path d="M10 0v6h6V0h-6Zm5 1v4h-4V1h4ZM8 1V0h1v2H8v2H7V1h1Zm0 5V4h1v2H8ZM6 8V7h1V6h1v2h1V7h5v1h-4v1H7V8H6Zm0 0v1H2V8H1v1H0V7h3v1h3Zm10 1h-1V7h1v2Zm-1 0h-1v2h2v-1h-1V9Zm-4 0h2v1h-1v1h-1V9Zm2 3v-1h-1v1h-1v1H9v1h3v-2h1Zm0 0h3v1h-2v1h-1v-2Zm-4-1v1h1v-2H7v1h2Z"></path><path d="M7 12h1v3h4v1H7v-4Zm9 2v2h-3v-1h2v-1h1Z"></path></svg>
+          <b>Pix</b>
+      </button>
+    </form>
+    <p class="text-center text-sm text-gray-400 mt-4">com segurança, por pix</p>
+  </div>
+
+  <!-- Modal -->
+  <div id="pixModal" class="modal flex">
+    <div class="modal-content relative">
+      <span id="closeModal" class="close">&times;</span>
+      <img id="qrcode" src="https://via.placeholder.com/200" alt="QR Code do Pix">
+      <p class="qr-info">Para enviar seu agrado basta pagar o PIX pelo QR Code</p>
+      <p>Usando seu aplicativo favorito, use a opção de escanear QR code.</p>
+      <button class="copy-button" id="copyPixCode">
+        <span>📋 Copiar código Pix</span>
+      </button>
+      <small>Após o pagamento, sua tela será atualizada automaticamente.</small>
+    </div>
+  </div>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/alertifyjs/build/alertify.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script>
+
+    const valueInput = document.getElementById('value');
+    let paymentCheckInterval;
+
+    function checkPaymentStatus(pix_id) {
+      // Substitua pela sua API real
+      fetch('/api/qrcode_status/' + pix_id , {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.status === "paid") {
+          clearInterval(paymentCheckInterval); // Para as requisições periódicas
+          window.location.href = '/obrigado';
+        } else {
+          console.log('Pagamento ainda não confirmado. Verificando novamente...');
+        }
+      })
+      .catch(error => {
+        console.error('Erro ao verificar o pagamento:', error);
+      });
+    }
+
+    function formatCurrency(value) {
+      const cleanedValue = value.replace(/\D/g, ''); // Remove todos os caracteres não numéricos
+      const formattedValue = (cleanedValue / 100).toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      });
+      return formattedValue;
+    }
+
+
+    valueInput.addEventListener('input', function () {
+      const cursorPosition = this.selectionStart; // Armazena a posição do cursor
+      this.value = formatCurrency(this.value); // Formata o valor como moeda
+      this.setSelectionRange(cursorPosition, cursorPosition); // Mantém o cursor no mesmo lugar
+    });
+
+    document.getElementById('donationForm').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const value = document.getElementById('value').value;
+
+      const rawValue = valueInput.value.replace(/\D/g, '');
+      const donationValue = parseFloat(rawValue) / 100;
+
+      console.log(`Valor da doação: R$ ${rawValue}`);
+      console.log(`Valor da doação: R$ ${donationValue.toFixed(2)}`);
+
+      if (rawValue < 300) {
+        alertify.alert('Valor inválido!', 'O valor mínimo é R$ 3,00.');
+        return;
+      }
+
+      Toastify({
+        text: "Processando doação...",
+        duration: 3000,
+        close: true,
+        gravity: "top",
+        position: "right",
+        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)"
+      }).showToast();
+
+      try {
+        const response = await fetch('/api/create_qrcode', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ "name": name, "amount": rawValue })
+        });
+
+        const data = await response.json();
+
+        if (data.qr_code) {
+          document.getElementById('qrcode').src = data.qr_code_base64;
+          document.getElementById('pixModal').style.display = 'flex';
+
+          document.getElementById('copyPixCode').addEventListener('click', function () {
+              navigator.clipboard.writeText(data.qr_code); // Substitua pelo código Pix real
+              alert('Código Pix copiado!');
+          });
+
+          startPaymentCheck(data.id);
+
+        } else {
+          alertify.alert('Erro!', 'Não foi possível gerar o QR Code do Pix.');
+        }
+      } catch (error) {
+        alertify.alert('Erro!', 'Ocorreu um erro ao processar a doação.');
+      }
+    });
+
+    function startPaymentCheck(pix_id) {
+      paymentCheckInterval = setInterval(function() {
+        checkPaymentStatus(pix_id);
+      }, 5000); // A cada 20 segundos (20000 milissegundos)
+    }
+
+    document.getElementById('closeModal').addEventListener('click', function () {
+      document.getElementById('pixModal').style.display = 'none';
+    });
+
+    window.addEventListener('click', function (e) {
+      if (e.target == document.getElementById('pixModal')) {
+        document.getElementById('pixModal').style.display = 'none';
+      }
+    });
+</script>
+</body>
+</html>

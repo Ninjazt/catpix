@@ -161,6 +161,7 @@
       .then(data => {
         if (data.status === "paid") {
           clearInterval(paymentCheckInterval); // Para as requisições periódicas
+          sessionStorage.setItem('paymentCompleted', 'true');  // Adiciona uma flag indicando que o pagamento foi concluíd
           window.location.href = '/obrigado';
         } else {
           console.log('Pagamento ainda não confirmado. Verificando novamente...');

@@ -14,7 +14,19 @@
     }
   </style>
 </head>
-<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+<body>
+  <script>
+  // Verifica se o pagamento foi concluído
+  if (!sessionStorage.getItem('paymentCompleted')) {
+    // Redireciona o usuário de volta à página inicial se a flag não estiver presente
+    window.location.href = '/';
+  } else {
+    // Remove a flag para evitar que o usuário acesse a página novamente através do botão de voltar
+    sessionStorage.removeItem('paymentCompleted');
+  }
+</script>
+
+  class="bg-gray-100 flex items-center justify-center min-h-screen">
   <div class="bg-white p-10 rounded-lg shadow-lg max-w-md text-center">
     <h1 class="text-3xl font-bold text-indigo-600 mb-6">Obrigado!</h1>
     <p class="text-gray-700 text-lg mb-8"><b>Catarina</b> recebeu seu agrado com sucesso.</p>
